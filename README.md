@@ -1,1 +1,2 @@
-# brigandyne2
+# brigandyne
+Brigandyne 2 pour FVTT 12

@@ -1,0 +1,352 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="sheet-header-actor item-header-main">
+        <img class="item-header-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+        <div class="header-bio justify-center">
+            <input name="name" type="text" value="{{item.name}}" class="charname" placeholder="Nom de l'objet"/>
+        </div>
+    </header>
+
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="details">Détails</a>
+        <a class="item" data-tab="description">Description</a>
+    </nav>
+
+    <section class="sheet-body">
+        
+        <div class="tab details" data-group="primary" data-tab="details">
+            <div class="item-grid">
+                
+                {{#if isArme}}
+                <div class="form-group-item">
+                    <label>Type d'arme</label>
+                    <select name="system.type_arme">
+                        {{#select system.type_arme}}
+                        <option value="melee">Mêlée (Combat)</option>
+                        <option value="distance">Distance (Tir)</option>
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="form-group-item">
+                    <label>Ajoute la Force (FOR)</label>
+                    <input type="checkbox" name="system.utilise_force" {{checked system.utilise_force}}/>
+                </div>
+                <div class="form-group-item">
+                    <label>Dégâts de l'arme</label>
+                    <input type="number" name="system.degats_fixe" value="{{system.degats_fixe}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Mains (Prise)</label>
+                    <select name="system.mains">
+                        {{#select system.mains}}
+                        <option value="1">1 Main</option>
+                        <option value="2">2 Mains</option>
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="form-group-item">
+                    <label>Spécial</label>
+                    <input type="text" name="system.special" value="{{system.special}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isArmure}}
+                <div class="form-group-item">
+                    <label>Équipée</label>
+                    <input type="checkbox" name="system.equipe" {{checked system.equipe}}/>
+                </div>
+                <div class="form-group-item">
+                    <label>Protection</label>
+                    <input type="number" name="system.protection" value="{{system.protection}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Malus Initiative</label>
+                    <input type="number" name="system.malus_init" value="{{system.malus_init}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Malus Mouvement (%)</label>
+                    <input type="number" name="system.malus_mou" value="{{system.malus_mou}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isObjet}}
+                <div class="form-group-item">
+                    <label>Quantité</label>
+                    <input type="number" name="system.quantite" value="{{system.quantite}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Encombrement</label>
+                    <input type="number" name="system.encombrement" value="{{system.encombrement}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Prix</label>
+                    <input type="text" name="system.prix" value="{{system.prix}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isAtout}}
+                <div class="form-group-item">
+                    <label>Type</label>
+                    <select name="system.type_atout">
+                        {{#select system.type_atout}}
+                        <option value="Spécialité">Spécialité</option>
+                        <option value="Talent">Talent</option>
+                        {{/select}}
+                    </select>
+                </div>
+                
+                {{#if (eq system.type_atout "Spécialité")}}
+                <div class="form-group-item col">
+                    <label>Spécialité</label>
+                    <input type="text" class="search-list" data-target="select[name='system.specialite']" placeholder="🔍 Taper pour filtrer..."/>
+                    <select name="system.specialite" size="4">
+                        {{#select system.specialite}}
+                        <option value="">-- Choisissez --</option>
+                        {{#each specialitesList as |nom key|}}
+                        <option value="{{key}}">{{nom}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                {{/if}}
+
+                {{#if (eq system.type_atout "Talent")}}
+                <div class="form-group-item col">
+                    <label>Talent</label>
+                    <input type="text" class="search-list" data-target="select[name='system.talent']" placeholder="🔍 Taper pour filtrer..."/>
+                    <select name="system.talent" size="4">
+                        {{#select system.talent}}
+                        <option value="">-- Choisissez --</option>
+                        {{#each talentsList as |nom key|}}
+                        <option value="{{key}}">{{nom}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+                {{/if}}
+                
+                <div class="form-group-item">
+                    <label>Compétence liée</label>
+                    <select name="system.stat_liee">
+                        {{#select system.stat_liee}}
+                        <option value="">- Aucune -</option>
+                        <option value="com">Combat</option>
+                        <option value="cns">Connaissances</option>
+                        <option value="dis">Discrétion</option>
+                        <option value="end">Endurance</option>
+                        <option value="for">Force</option>
+                        <option value="hab">Habileté</option>
+                        <option value="mag">Magie</option>
+                        <option value="mou">Mouvement</option>
+                        <option value="per">Perception</option>
+                        <option value="soc">Sociabilité</option>
+                        <option value="sur">Survie</option>
+                        <option value="tir">Tir</option>
+                        <option value="vol">Volonté</option>
+                        {{/select}}
+                    </select>
+                </div>
+
+                {{#if (eq system.type_atout "Spécialité")}}
+                <div class="form-group-item">
+                    <label>Bonus</label>
+                    <input type="number" name="system.bonus" value="{{system.bonus}}"/>
+                </div>
+                {{/if}}
+
+                <div class="form-group-item">
+                    <label>Effet / Condition</label>
+                    <input type="text" name="system.effet" value="{{system.effet}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isSort}}
+                <div class="form-group-item">
+                    <label>Type d'incantation</label>
+                    <select name="system.type_sort">
+                        {{#select system.type_sort}}
+                        <option value="sortilege">Sortilège (Normal)</option>
+                        <option value="tour">Tour de Magie</option>
+                        <option value="rituel">Rituel (Action longue)</option>
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="form-group-item">
+                    <label>Domaine / Source</label>
+                    <input type="text" name="system.domaine" value="{{system.domaine}}" placeholder="Ex: Nécromancie..."/>
+                </div>
+
+                {{#if isNotTour}}
+                <div class="form-group-item">
+                    <label>Difficulté (Mod.)</label>
+                    <input type="number" name="system.difficulte" value="{{system.difficulte}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Portée</label>
+                    <select name="system.portee">
+                        {{#select system.portee}}
+                        <option value="Contact">Contact (1 m)</option>
+                        <option value="Courte">Courte (5 m)</option>
+                        <option value="Moyenne">Moyenne (20 m)</option>
+                        <option value="Longue">Longue (50 m)</option>
+                        <option value="Extrême">Extrême (100 m)</option>
+                        <option value="Vue">À vue</option>
+                        <option value="Personnel">Personnel</option>
+                        {{/select}}
+                    </select>
+                </div>
+                <div class="form-group-item">
+                    <label>Durée</label>
+                    <input type="text" name="system.duree" value="{{system.duree}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Résistance</label>
+                    <input type="text" name="system.resistance" value="{{system.resistance}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Formule magique (+5)</label>
+                    <input type="text" name="system.formule" value="{{system.formule}}" placeholder="Phrase prononcée..."/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Effet R+ (Critique)</label>
+                    <input type="text" name="system.r_plus" value="{{system.r_plus}}"/>
+                </div>
+                {{/if}}
+                {{/if}}
+
+                {{#if isDomaine}}
+                <div class="domaine-container border-top pt-10 min-h-100 mt-15 w-100">
+                    <p class="text-center text-muted mb-10">Glissez-déposez vos sorts ici pour les lier au domaine.</p>
+                    
+                    <div class="flex-row gap-20">
+                        <div class="flex-1">
+                            <h4 class="color-purple font-georgia border-bottom-purple mb-10">Tours</h4>
+                            <div class="flex-col gap-5">
+                                {{#each system.spells as |spell index|}}
+                                {{#if (eq spell.type_sort "tour")}}
+                                <div class="flex-row align-center magic-item-bg">
+                                    <img src="{{spell.img}}" class="item-image small border-dark">
+                                    <div class="flex-1 flex-col">
+                                        <span class="font-bold color-light font-095">{{spell.name}}</span>
+                                    </div>
+                                    <a class="spell-delete text-danger px-5 cursor-pointer" data-index="{{index}}" title="Retirer"><i class="fas fa-trash"></i></a>
+                                </div>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+                        </div>
+
+                        <div class="flex-1">
+                            <h4 class="color-blue font-georgia border-bottom-blue mb-10">Sortilèges & Rituels</h4>
+                            <div class="flex-col gap-5">
+                                {{#each system.spells as |spell index|}}
+                                {{#if (eq spell.type_sort "sortilege")}}
+                                <div class="flex-row align-center magic-item-bg">
+                                    <img src="{{spell.img}}" class="item-image small border-dark">
+                                    <div class="flex-1 flex-col">
+                                        <span class="font-bold color-light font-095">{{spell.name}}</span>
+                                        {{#if spell.difficulte}}<span class="font-08 text-muted">Diff: {{spell.difficulte}}</span>{{/if}}
+                                    </div>
+                                    <a class="spell-delete text-danger px-5 cursor-pointer" data-index="{{index}}" title="Retirer"><i class="fas fa-trash"></i></a>
+                                </div>
+                                {{/if}}
+                                {{#if (eq spell.type_sort "rituel")}}
+                                <div class="flex-row align-center magic-item-bg">
+                                    <img src="{{spell.img}}" class="item-image small border-dark">
+                                    <div class="flex-1 flex-col">
+                                        <span class="font-bold color-light font-095">{{spell.name}}</span>
+                                        {{#if spell.difficulte}}<span class="font-08 text-muted">Diff: {{spell.difficulte}}</span>{{/if}}
+                                    </div>
+                                    <a class="spell-delete text-danger px-5 cursor-pointer" data-index="{{index}}" title="Retirer"><i class="fas fa-trash"></i></a>
+                                </div>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if isOrigine}}
+                <div class="form-group-item">
+                    <label>Bonus Vitalité</label>
+                    <input type="number" name="system.bonus_vit" value="{{system.bonus_vit}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Bonus Sang-Froid</label>
+                    <input type="number" name="system.bonus_sf" value="{{system.bonus_sf}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Points de Destin</label>
+                    <input type="number" name="system.destin" value="{{system.destin}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Talents Automatiques</label>
+                    <input type="text" name="system.talents_auto" value="{{system.talents_auto}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Spécial</label>
+                    <input type="text" name="system.special" value="{{system.special}}"/>
+                </div>
+                <div class="form-group-item">
+                    <label>Limitation</label>
+                    <input type="text" name="system.limitation" value="{{system.limitation}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isArchetype}}
+                <div class="form-group-item col">
+                    <label>Vices & Vertus</label>
+                    <input type="text" name="system.vices_vertus" value="{{system.vices_vertus}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Talents accessibles</label>
+                    <input type="text" name="system.talents" value="{{system.talents}}"/>
+                </div>
+                {{/if}}
+
+                {{#if isCarriere}}
+                <div class="form-group-item">
+                    <label>Groupe de carrières</label>
+                    <input type="text" name="system.groupe" value="{{system.groupe}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Spécialités</label>
+                    <input type="text" name="system.specialites" value="{{system.specialites}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Talents</label>
+                    <input type="text" name="system.talents" value="{{system.talents}}"/>
+                </div>
+                <div class="form-group-item col">
+                    <label>Équipement</label>
+                    <input type="text" name="system.equipement" value="{{system.equipement}}"/>
+                </div>
+                {{/if}}
+
+                {{#if (or isOrigine isArchetype isCarriere)}}
+                <div class="item-header grey mt-20">
+                    <h3 class="item-title">
+                        {{#if isCarriere}}Profil de Progression (Max){{else}}Modificateurs de Caractéristiques{{/if}}
+                    </h3>
+                </div>
+                <div class="stats-modifiers-grid">
+                    {{#each system.stats as |mod key|}}
+                    <div class="stat-mod">
+                        <label>{{key}}</label>
+                        <input type="number" name="system.stats.{{key}}" value="{{mod}}" {{#if ../isCarriere}}min="0" max="6"{{/if}}/>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+
+            </div>
+        </div>
+
+        <div class="tab description" data-group="primary" data-tab="description">
+            <div class="editor-container">
+                {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+            </div>
+        </div>
+
+    </section>
+</form>
