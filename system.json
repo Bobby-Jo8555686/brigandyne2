@@ -20,10 +20,11 @@
   ],
   "template": "template.json", 
   "packs": [],
-  "url": "https://github.com/Bobby-Jo8555686/brigandyne",
-  "manifest": "https://raw.githubusercontent.com/Bobby-Jo8555686/brigandyne/main/system.json",
-  "download": "https://github.com/Bobby-Jo8555686/brigandyne/archive/refs/heads/main.zip",
+  "url": "https://github.com/Bobby-Jo8555686/brigandyne2",
+  "manifest": "https://raw.githubusercontent.com/Bobby-Jo8555686/brigandyne2/main/system.json",
+  "download": "https://github.com/Bobby-Jo8555686/brigandyne2/archive/refs/heads/main.zip",
   "license": "",
   "readme": ""
 
 }
+
